@@ -14,7 +14,6 @@ window.onload = function(){
     ball.image = core.assets['balls.png'];
     ball.x = CORE_SIZE[0] / 2;
     ball.y = CORE_SIZE[1] / 2;
-    core.rootScene.addChild(ball);
 
     ball.move_r = Math.random() * MAX_MOVE;
     ball.theta = Math.PI * Math.random();
@@ -57,6 +56,18 @@ window.onload = function(){
       ball.x = e.x;
       ball.y = e.y;
     });
+
+    var label = new Label();
+    label.x = 30;
+    label.y = 5;
+    label.color = 'red';
+    label.font = '12px "KhmerOSsys"';
+    label.on('enterframe', function() {
+      label.text = (core.frame / core.fps).toFixed(2);
+    });
+
+    core.rootScene.addChild(ball);
+    core.rootScene.addChild(label);
   }
   core.start();
 };
