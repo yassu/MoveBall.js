@@ -94,7 +94,6 @@ window.onload = function(){
     gameOverLabel.y = 0;
     gameOverLabel.color = 'red'
     gameOverLabel.font = '24px "KhmerOSsys"';
-    gameOverLabel.text = '0';
     gameOverScene.addChild(gameOverLabel);
   }
   core.start();
