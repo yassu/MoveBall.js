@@ -5,6 +5,7 @@ window.onload = function(){
   var core = new Core(CORE_SIZE[0], CORE_SIZE[1]);
   var MAX_MOVE = 10;
   var BALL_SIZE = [20, 20];
+  var MOVE_DISTANCE_BY_ARROW_KEY = 5;
   core.preload('balls.png');
   core.fps = 15;
 
@@ -33,17 +34,16 @@ window.onload = function(){
         this.move_y *= -1;
         ball.hit_cnt += 1;
         this.frame = (this.frame + 1) % 3;
+      }
 
-        // 何故か動かない
-        // if (core.input.left) {
-        //   this.x -= MOVE_DISTANCE_BY_ARROW_KEY;
-        // } else if(core.input.right){
-        //   this.x += MOVE_DISTANCE_BY_ARROW_KEY;
-        // } else if(core.input.up){
-        //   this.y -= MOVE_DISTANCE_BY_ARROW_KEY;
-        // } else if(core.input.down){
-        //   this.y += MOVE_DISTANCE_BY_ARROW_KEY;
-        // }
+      if (core.input.left) {
+        this.x -= MOVE_DISTANCE_BY_ARROW_KEY;
+      } else if(core.input.right){
+        this.x += MOVE_DISTANCE_BY_ARROW_KEY;
+      } else if(core.input.up){
+        this.y -= MOVE_DISTANCE_BY_ARROW_KEY;
+      } else if(core.input.down){
+        this.y += MOVE_DISTANCE_BY_ARROW_KEY;
       }
     });
 
