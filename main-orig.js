@@ -10,46 +10,50 @@ window.onload = function(){
   core.fps = 15;
 
   core.onload = function(){
-    var ball = new Sprite(BALL_SIZE[0], BALL_SIZE[1]);
-    ball.image = core.assets['balls.png'];
-    ball.x = CORE_SIZE[0] / 2;
-    ball.y = CORE_SIZE[1] / 2;
+    var Ball = Class.create(Sprite, {
+        initialize: function(x, y) {
+          Sprite.call(this, BALL_SIZE[0], BALL_SIZE[1]);
+          this.x = x;
+          this.y = y;
+          this.image = core.assets['balls.png'];
+          this.move_r = Math.random() * MAX_MOVE;
+          this.theta = Math.PI * Math.random();
+          this.move_x = this.move_r * Math.cos(this.theta);
+          this.move_y = this.move_r * Math.sin(this.theta);
 
-    ball.move_r = Math.random() * MAX_MOVE;
-    ball.theta = Math.PI * Math.random();
-    ball.move_x = ball.move_r * Math.cos(ball.theta);
-    ball.move_y = ball.move_r * Math.sin(ball.theta);
-    ball.hit_cnt = 0;
+          this.addEventListener('enterframe', function(){
+            this.x += this.move_x;
+            this.y += this.move_y;
+            if((this.x > CORE_SIZE[0] - BALL_SIZE[0] && this.move_x > 0) ||
+               (this.x < 0 && this.move_x < 0)) {
+              this.move_x *= -1;
+              this.frame = (this.frame + 1) % 3;
+            } else if ((this.y > CORE_SIZE[1] - BALL_SIZE[1] && this.move_y > 0) ||
+              (this.y < 0 && this.move_y < 0)) {
+              this.move_y *= -1;
+              this.frame = (this.frame + 1) % 3;
+            }
 
-    ball.addEventListener('enterframe', function(){
-      this.x += this.move_x;
-      this.y += this.move_y;
-      if((this.x > CORE_SIZE[0] - BALL_SIZE[0] && this.move_x > 0) ||
-         (this.x < 0 && this.move_x < 0)) {
-        this.move_x *= -1;
-        ball.hit_cnt += 1;
-        this.frame = (this.frame + 1) % 3;
-      } else if ((this.y > CORE_SIZE[1] - BALL_SIZE[1] && this.move_y > 0) ||
-        (this.y < 0 && this.move_y < 0)) {
-        this.move_y *= -1;
-        ball.hit_cnt += 1;
-        this.frame = (this.frame + 1) % 3;
-      }
+            if (core.input.left) {
+              this.x -= MOVE_DISTANCE_BY_ARROW_KEY;
+            } else if(core.input.right){
+              this.x += MOVE_DISTANCE_BY_ARROW_KEY;
+            } else if(core.input.up){
+              this.y -= MOVE_DISTANCE_BY_ARROW_KEY;
+            } else if(core.input.down){
+              this.y += MOVE_DISTANCE_BY_ARROW_KEY;
+            }
+          });
+          core.rootScene.addChild(this);
+          this.addEventListener('touchstart', function() {
+            core.rootScene.removeChild(this);
+          });
+        }
+      })
 
-      if (core.input.left) {
-        this.x -= MOVE_DISTANCE_BY_ARROW_KEY;
-      } else if(core.input.right){
-        this.x += MOVE_DISTANCE_BY_ARROW_KEY;
-      } else if(core.input.up){
-        this.y -= MOVE_DISTANCE_BY_ARROW_KEY;
-      } else if(core.input.down){
-        this.y += MOVE_DISTANCE_BY_ARROW_KEY;
-      }
-    });
 
-    ball.addEventListener('touchstart', function() {
-      core.rootScene.removeChild(this);
-    });
+    // ball = Ball(CORE_SIZE / 2, CORE_SIZE / 2);
+    ball = Ball(0, 0);
 
     core.rootScene.on('touchstart', function(e) {
       ball.x = e.x;
@@ -76,7 +80,7 @@ window.onload = function(){
     label.color = 'blue';
     label.font = '12px "KhmerOSsys"';
     label.on('enterframe', function() {
-      label.text = "hit count: " + ball.hit_cnt
+      label.text = "time: " + (this.age / core.fps).toFixed(2);
     });
 
     core.rootScene.addChild(ball);
