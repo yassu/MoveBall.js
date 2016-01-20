@@ -27,7 +27,7 @@ window.onload = function(){
       } else if ((this.y > CORE_SIZE[1] - IMAGE_SIZE[1] && this.move_y > 0) ||
         (this.y < 0 && this.move_y < 0)) {
         this.move_y *= -1;
-        }
+      }
       console.log(this.move_x);
     });
   }
