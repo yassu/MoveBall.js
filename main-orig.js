@@ -5,6 +5,7 @@ window.onload = function(){
   var core = new Core(CORE_SIZE[0], CORE_SIZE[1]);
   var MAX_MOVE = 10;
   var IMAGE_SIZE = [20, 20];
+  // var MOVE_DISTANCE_BY_ARROW_KEY = 1000;
   core.preload('balls.png');
   core.fps = 15;
 
@@ -20,6 +21,7 @@ window.onload = function(){
     ball.move_x = ball.move_r * Math.cos(ball.theta);
     ball.move_y = ball.move_r * Math.sin(ball.theta);
     hit_cnt = 0;
+
     ball.addEventListener('enterframe', function(){
       this.x += this.move_x;
       this.y += this.move_y;
@@ -33,8 +35,27 @@ window.onload = function(){
         this.move_y *= -1;
         hit_cnt += 1;
         this.frame = (this.frame + 1) % 3;
+
+        // 何故か動かない
+        // if (core.input.left) {
+        //   this.x -= MOVE_DISTANCE_BY_ARROW_KEY;
+        // } else if(core.input.right){
+        //   this.x += MOVE_DISTANCE_BY_ARROW_KEY;
+        // } else if(core.input.up){
+        //   this.y -= MOVE_DISTANCE_BY_ARROW_KEY;
+        // } else if(core.input.down){
+        //   this.y += MOVE_DISTANCE_BY_ARROW_KEY;
+        // }
       }
-      console.log(this.move_x);
+    });
+
+    ball.addEventListener('touchstart', function() {
+      core.rootScene.removeChild(this);
+    });
+
+    core.rootScene.on('touchstart', function(e) {
+      ball.x = e.x;
+      ball.y = e.y;
     });
   }
   core.start();
