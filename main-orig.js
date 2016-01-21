@@ -11,7 +11,7 @@ window.onload = function(){
   core.fps = 15;
 
   core.onload = function(){
-    make hall
+    // make hall
     var hall = new Sprite(BALL_SIZE[0], BALL_SIZE[1]);
     hall.image = core.assets['hall.png'];
     hall.x = 0;
