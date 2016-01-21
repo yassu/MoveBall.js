@@ -49,7 +49,7 @@ window.onload = function(){
             core.rootScene.removeChild(this);
           });
         }
-      })
+      });
 
 
     ball = new Ball(CORE_SIZE[0] / 2, CORE_SIZE[1] / 2);
@@ -67,7 +67,7 @@ window.onload = function(){
       // if (ball.intersect(this)) // 画像のザックリした当たり判定
       if (ball.within(hall, BALL_SIZE[0])) { // 画像の中心からの距離を指定する
         var time = this.age / core.fps;
-        gameOverLabel.text = "spent " + time.toFixed(2) + "s"
+        gameOverLabel.text = "spent " + time.toFixed(2) + "s";
         core.pushScene(gameOverScene);
         core.stop();
       }
@@ -91,9 +91,9 @@ window.onload = function(){
     var gameOverLabel = new Label();
     gameOverLabel.x = 0;
     gameOverLabel.y = 0;
-    gameOverLabel.color = 'red'
+    gameOverLabel.color = 'red';
     gameOverLabel.font = '24px "KhmerOSsys"';
     gameOverScene.addChild(gameOverLabel);
-  }
+  };
   core.start();
 };
