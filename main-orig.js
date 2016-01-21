@@ -12,10 +12,10 @@ window.onload = function(){
 
   core.onload = function(){
     // make hall
-    var hall = new Sprite(BALL_SIZE[0], BALL_SIZE[1]);
-    hall.image = core.assets['hall.png'];
-    hall.x = 0;
-    hall.y = 0;
+    // var hall = new Sprite(BALL_SIZE[0], BALL_SIZE[1]);
+    // hall.image = core.assets['hall.png'];
+    // hall.x = 0;
+    // hall.y = 0;
 
     // ball
     var Ball = Class.create(Sprite, {
@@ -55,13 +55,13 @@ window.onload = function(){
               this.y += MOVE_DISTANCE_BY_ARROW_KEY;
             }
 
-            // if (ball.intersect(this)) // 画像のザックリした当たり判定
-            if (this.within(hall, BALL_SIZE[0])) { // 画像の中心からの距離を指定する
-              var time = this.age / core.fps;
-              gameOverLabel.text = "spent " + time.toFixed(2) + "s";
-              core.pushScene(gameOverScene);
-              core.stop();
-            }
+            // // if (ball.intersect(this)) // 画像のザックリした当たり判定
+            // if (this.within(hall, BALL_SIZE[0])) { // 画像の中心からの距離を指定する
+            //   var time = this.age / core.fps;
+            //   gameOverLabel.text = "spent " + time.toFixed(2) + "s";
+            //   core.pushScene(gameOverScene);
+            //   core.stop();
+            // }
           });
           core.rootScene.addChild(this);
           this.addEventListener('touchstart', function() {
@@ -96,7 +96,7 @@ window.onload = function(){
       label.text = "time: " + (this.age / core.fps).toFixed(2);
     });
 
-    core.rootScene.addChild(hall);
+    // core.rootScene.addChild(hall);
     core.rootScene.addChild(label);
 
     var gameOverScene = new Scene();
