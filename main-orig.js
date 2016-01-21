@@ -52,8 +52,7 @@ window.onload = function(){
       })
 
 
-    // ball = Ball(CORE_SIZE / 2, CORE_SIZE / 2);
-    ball = Ball(0, 0);
+    ball = new Ball(CORE_SIZE[0] / 2, CORE_SIZE[1] / 2);
 
     core.rootScene.on('touchstart', function(e) {
       ball.x = e.x;
