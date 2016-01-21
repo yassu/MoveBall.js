@@ -6,6 +6,7 @@ window.onload = function(){
   var MAX_MOVE = 10;
   var BALL_SIZE = [20, 20];
   var MOVE_DISTANCE_BY_ARROW_KEY = 5;
+  var MAX_NUMBER_OF_BALLS = 10;
   core.preload('balls.png', 'hall.png');
   core.fps = 15;
 
@@ -20,7 +21,6 @@ window.onload = function(){
     var Ball = Class.create(Sprite, {
         initialize: function(x, y) {
           Sprite.call(this, BALL_SIZE[0], BALL_SIZE[1]);
-          // 変数達
           this.x = x;
           this.y = y;
           this.image = core.assets['balls.png'];
@@ -28,6 +28,7 @@ window.onload = function(){
           this.theta = Math.PI * Math.random();
           this.move_x = this.move_r * Math.cos(this.theta);
           this.move_y = this.move_r * Math.sin(this.theta);
+          this.frame = rand(3);
 
           this.addEventListener('enterframe', function(){
             this.x += this.move_x;
@@ -36,10 +37,12 @@ window.onload = function(){
                (this.x < 0 && this.move_x < 0)) {
               this.move_x *= -1;
               this.frame = (this.frame + 1) % 3;
+              gen_new_ball()
             } else if ((this.y > CORE_SIZE[1] - BALL_SIZE[1] && this.move_y > 0) ||
               (this.y < 0 && this.move_y < 0)) {
               this.move_y *= -1;
               this.frame = (this.frame + 1) % 3;
+              gen_new_ball();
             }
 
             if (core.input.left) {
@@ -56,7 +59,6 @@ window.onload = function(){
             if (this.within(hall, BALL_SIZE[0])) { // 画像の中心からの距離を指定する
               var time = this.age / core.fps;
               gameOverLabel.text = "spent " + time.toFixed(2) + "s";
-              console.log(gameOverLabel.text);
               core.pushScene(gameOverScene);
               core.stop();
             }
@@ -69,11 +71,20 @@ window.onload = function(){
       });
 
 
-    ball = new Ball(CORE_SIZE[0] / 2, CORE_SIZE[1] / 2);
+    // ballの個数がMAX_NUMBER_OF_BALLSより小さければ, 新しいballを作る
+    function gen_new_ball() {
+      if (balls.length < MAX_NUMBER_OF_BALLS) {
+        var new_ball_x = rand(CORE_SIZE[0]);
+        var new_ball_y = rand(CORE_SIZE[1]);
+        balls.push(new Ball(new_ball_x, new_ball_y));
+      }
+    }
+    var balls = [new Ball(CORE_SIZE[0] / 2, CORE_SIZE[1] / 2)];
 
     core.rootScene.on('touchstart', function(e) {
-      ball.x = e.x;
-      ball.y = e.y;
+      i = rand(balls.length - 1);
+      balls[i].x = e.x;
+      balls[i].y = e.y;
     });
 
     var label = new Label();
@@ -85,7 +96,6 @@ window.onload = function(){
       label.text = "time: " + (this.age / core.fps).toFixed(2);
     });
 
-    core.rootScene.addChild(ball);
     core.rootScene.addChild(hall);
     core.rootScene.addChild(label);
 
@@ -100,3 +110,7 @@ window.onload = function(){
   };
   core.start();
 };
+
+function rand(n) {
+  return Math.floor(Math.random() * (n + 1));
+}
