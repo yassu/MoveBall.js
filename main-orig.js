@@ -7,8 +7,54 @@ window.onload = function(){
   var BALL_SIZE = [20, 20];
   var MOVE_DISTANCE_BY_ARROW_KEY = 5;
   var MAX_NUMBER_OF_BALLS = 10;
-  var EXIST_TURTLE = (rand(3) == 0); // 1/3の確率でカメが出現
+  var EXIST_TURTLE = (r = rand(5) == 0); // 1/3の確率でカメが出現
+  console.log(r);
   var TURTLE_SIZE = [58, 57];
+  if (EXIST_TURTLE) {
+    EASINGS = [
+      ["InSine", enchant.Easing.SINE_EASEIN],
+      ["OutSine", enchant.Easing.SINE_EASEOUT],
+      ["InOutSine", enchant.Easing.SINE_EASEINOUT],
+
+      ["InQuad", enchant.Easing.QUAD_EASEIN],
+      ["OutQuad", enchant.Easing.QUAD_EASEOUT],
+      ["InOutQuad", enchant.Easing.QUAD_EASEINOUT],
+
+      ["InCubic", enchant.Easing.CUBIC_EASEIN],
+      ["OutCubic", enchant.Easing.CUBIC_EASEOUT],
+      ["InOutCubic", enchant.Easing.CUBIC_EASEINOUT],
+
+      ["InQuart", enchant.Easing.QUART_EASEIN],
+      ["OutQuart", enchant.Easing.QUART_EASEOUT],
+      ["InOutQuart", enchant.Easing.QUART_EASEINOUT],
+
+      ["InQuint", enchant.Easing.QUINT_EASEIN],
+      ["OutQuint", enchant.Easing.QUINT_EASEOUT],
+      ["InOutQuint", enchant.Easing.QUINT_EASEINOUT],
+
+      ["InExpo", enchant.Easing.EXPO_EASEIN],
+      ["OutExpo", enchant.Easing.EXPO_EASEOUT],
+      ["InOutExpo", enchant.Easing.EXPO_EASEINOUT],
+
+      ["InCirc", enchant.Easing.CIRC_EASEIN],
+      ["OutCirc", enchant.Easing.CIRC_EASEOUT],
+      ["InOutCirc", enchant.Easing.CIRC_EASEINOUT],
+
+      ["InBack", enchant.Easing.BACK_EASEIN],
+      ["OutBack", enchant.Easing.BACK_EASEOUT],
+      ["InOutBack", enchant.Easing.BACK_EASEINOUT],
+
+      ["InElastic", enchant.Easing.ELASTIC_EASEIN],
+      ["OutElastic", enchant.Easing.ELASTIC_EASEOUT],
+      ["InOutElastic", enchant.Easing.ELASTIC_EASEINOUT],
+
+      ["InBounce", enchant.Easing.BOUNCE_EASEIN],
+      ["OutBounce", enchant.Easing.BOUNCE_EASEOUT],
+      ["InOutBounce", enchant.Easing.BOUNCE_EASEINOUT],
+      ];
+
+    var TURTLE_EASING = EASINGS[rand(EASINGS.length - 1)];
+  }
   core.preload('balls.png', 'hall.png', 'turtle.jpg');
   core.fps = 15;
 
@@ -94,23 +140,29 @@ window.onload = function(){
     label.y = 5;
     label.color = 'blue';
     label.font = '12px "KhmerOSsys"';
-    label.on('enterframe', function() {
-      label.text = "time: " + (this.age / core.fps).toFixed(2);
-    });
 
-    turtle = new Sprite(this, TURTLE_SIZE[0], TURTLE_SIZE[1]);
+    if (EXIST_TURTLE) {
+    turtle = new Sprite(TURTLE_SIZE[0], TURTLE_SIZE[1]);
     turtle.x = 0;
-    turtle.y = 0;
-    turtle.image = core.assets['turtle2.png'];
-    turtle.tl.moveBy(rand(100), 0, 40, enchant.Easing.BOUNCE_EASEOUT)
-      .moveBy(-rand(100), -rand(20), rand(20))
-      .fadeOut(20)
-      .fadeIn(10)
+    turtle.y = rand(CORE_SIZE[1]);
+    turtle.image = core.assets['turtle.jpg'];
+    turtle.tl.moveBy(CORE_SIZE[0] - TURTLE_SIZE[0], 0, 40, TURTLE_EASING[1])
+      .moveBy(TURTLE_SIZE[0] - CORE_SIZE[0], 0, 40, TURTLE_EASING[1])
       .loop();
+    }
+
+    label.on('enterframe', function() {
+      label.text = "time: " + (this.age / core.fps).toFixed(2)
+      if (EXIST_TURTLE) {
+        label.text += "<br>easing: " + TURTLE_EASING[0];
+      }
+    });
 
     // core.rootScene.addChild(hall);
     core.rootScene.addChild(label);
-    core.rootScene.addChild(turtle);
+    if (EXIST_TURTLE) {
+      core.rootScene.addChild(turtle);
+    }
 
     var gameOverScene = new Scene();
     gameOverScene.backgroundColor = 'black';
