@@ -7,7 +7,7 @@ window.onload = function(){
   var BALL_SIZE = [20, 20];
   var MOVE_DISTANCE_BY_ARROW_KEY = 5;
   var MAX_NUMBER_OF_BALLS = 10;
-  var EXIST_TURTLE = (r = rand(5) == 0); // 1/3の確率でカメが出現
+  var EXIST_TURTLE = (r = rand(5 - 1) == 0); // 1/5の確率でカメが出現
   var TURTLE_SIZE = [58, 57];
   if (EXIST_TURTLE) {
     EASINGS = [
