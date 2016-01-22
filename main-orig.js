@@ -55,13 +55,13 @@ window.onload = function(){
 
     var TURTLE_EASING = EASINGS[rand(EASINGS.length - 1)];
   }
-  core.preload('balls.png', 'hall.png', 'turtle.jpg');
+  core.preload('imgs/balls.png', 'imgs/hall.png', 'imgs/turtle.jpg');
   core.fps = 15;
 
   core.onload = function(){
     // make hall
     var hall = new Sprite(BALL_SIZE[0], BALL_SIZE[1]);
-    hall.image = core.assets['hall.png'];
+    hall.image = core.assets['imgs/hall.png'];
     hall.x = 0;
     hall.y = 0;
 
@@ -71,7 +71,7 @@ window.onload = function(){
           Sprite.call(this, BALL_SIZE[0], BALL_SIZE[1]);
           this.x = x;
           this.y = y;
-          this.image = core.assets['balls.png'];
+          this.image = core.assets['imgs/balls.png'];
           this.move_r = Math.random() * MAX_MOVE;
           this.theta = Math.PI * Math.random();
           this.move_x = this.move_r * Math.cos(this.theta);
@@ -145,7 +145,7 @@ window.onload = function(){
     turtle = new Sprite(TURTLE_SIZE[0], TURTLE_SIZE[1]);
     turtle.x = 0;
     turtle.y = rand(CORE_SIZE[1]);
-    turtle.image = core.assets['turtle.jpg'];
+    turtle.image = core.assets['imgs/turtle.jpg'];
     turtle.tl.moveBy(CORE_SIZE[0] - TURTLE_SIZE[0], 0, 40, TURTLE_EASING[1])
       .moveBy(TURTLE_SIZE[0] - CORE_SIZE[0], 0, 40, TURTLE_EASING[1])
       .loop();
@@ -158,7 +158,7 @@ window.onload = function(){
       }
     });
 
-    // core.rootScene.addChild(hall);
+    core.rootScene.addChild(hall);
     core.rootScene.addChild(label);
     if (EXIST_TURTLE) {
       core.rootScene.addChild(turtle);
