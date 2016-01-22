@@ -7,7 +7,9 @@ window.onload = function(){
   var BALL_SIZE = [20, 20];
   var MOVE_DISTANCE_BY_ARROW_KEY = 5;
   var MAX_NUMBER_OF_BALLS = 10;
-  core.preload('balls.png', 'hall.png');
+  var EXIST_TURTLE = (rand(3) == 0); // 1/3の確率でカメが出現
+  var TURTLE_SIZE = [58, 57];
+  core.preload('balls.png', 'hall.png', 'turtle.jpg');
   core.fps = 15;
 
   core.onload = function(){
@@ -96,8 +98,19 @@ window.onload = function(){
       label.text = "time: " + (this.age / core.fps).toFixed(2);
     });
 
+    turtle = new Sprite(this, TURTLE_SIZE[0], TURTLE_SIZE[1]);
+    turtle.x = 0;
+    turtle.y = 0;
+    turtle.image = core.assets['turtle2.png'];
+    turtle.tl.moveBy(rand(100), 0, 40, enchant.Easing.BOUNCE_EASEOUT)
+      .moveBy(-rand(100), -rand(20), rand(20))
+      .fadeOut(20)
+      .fadeIn(10)
+      .loop();
+
     // core.rootScene.addChild(hall);
     core.rootScene.addChild(label);
+    core.rootScene.addChild(turtle);
 
     var gameOverScene = new Scene();
     gameOverScene.backgroundColor = 'black';
