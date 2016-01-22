@@ -1,13 +1,13 @@
 enchant();
 
-window.onload = function(){
+window.onload = function  () {
   var CORE_SIZE = [320, 320];
   var core = new Core(CORE_SIZE[0], CORE_SIZE[1]);
   var MAX_MOVE = 10;
   var BALL_SIZE = [20, 20];
   var MOVE_DISTANCE_BY_ARROW_KEY = 5;
   var MAX_NUMBER_OF_BALLS = 10;
-  var EXIST_TURTLE = (r = rand(5 - 1) == 0); // 1/5の確率でカメが出現
+  var EXIST_TURTLE = (r = rand(5 - 1) === 0); // 1/5の確率でカメが出現
   var TURTLE_SIZE = [58, 57];
   if (EXIST_TURTLE) {
     EASINGS = [
@@ -49,7 +49,7 @@ window.onload = function(){
 
       ["InBounce", enchant.Easing.BOUNCE_EASEIN],
       ["OutBounce", enchant.Easing.BOUNCE_EASEOUT],
-      ["InOutBounce", enchant.Easing.BOUNCE_EASEINOUT],
+      ["InOutBounce", enchant.Easing.BOUNCE_EASEINOUT]
       ];
 
     var TURTLE_EASING = EASINGS[rand(EASINGS.length - 1)];
@@ -84,7 +84,7 @@ window.onload = function(){
                (this.x < 0 && this.move_x < 0)) {
               this.move_x *= -1;
               this.frame = (this.frame + 1) % 3;
-              gen_new_ball()
+              gen_new_ball();
             } else if ((this.y > CORE_SIZE[1] - BALL_SIZE[1] && this.move_y > 0) ||
               (this.y < 0 && this.move_y < 0)) {
               this.move_y *= -1;
@@ -151,7 +151,7 @@ window.onload = function(){
     }
 
     label.on('enterframe', function() {
-      label.text = "time: " + (this.age / core.fps).toFixed(2)
+      label.text = "time: " + (this.age / core.fps).toFixed(2);
       if (EXIST_TURTLE) {
         label.text += "<br>easing: " + TURTLE_EASING[0];
       }
